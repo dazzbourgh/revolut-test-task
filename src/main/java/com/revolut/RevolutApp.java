@@ -36,9 +36,9 @@ public class RevolutApp {
         JavalinJson.setToJsonMapper(gson::toJson);
         app
                 .get("/v1/accounts/:id", controller.accountInfo())
-                .post("/v1/deposits", controller.deposit())
-//                .post("/v1/withdrawals", controller.withdraw())
-//                .post("/v1/transfers", controller.transfer())
+                .post("/v1/deposit", controller.deposit())
+//                .post("/v1/withdraw", controller.withdraw())
+//                .post("/v1/transfer", controller.transfer())
                 .exception(IllegalAccountException.class, exceptionHandler(HttpStatus.BAD_REQUEST_400))
                 .exception(InsufficientFundsException.class, exceptionHandler(HttpStatus.BAD_REQUEST_400))
                 .exception(NumberFormatException.class, exceptionHandler(HttpStatus.BAD_REQUEST_400))

@@ -8,6 +8,6 @@ import java.math.BigDecimal;
 @Data
 @AllArgsConstructor
 public class Deposit {
-    private long id;
+    private long accountId;
     private BigDecimal amount;
 }

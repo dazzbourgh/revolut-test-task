@@ -42,11 +42,12 @@ public class AccountController {
         return ctx -> {
             var deposit = ctx.bodyAsClass(Deposit.class);
             if (deposit.getAmount().compareTo(BigDecimal.ZERO) >= 0) {
-                accountCommandService.deposit(deposit.getId(), deposit.getAmount());
+                accountCommandService.deposit(deposit.getAccountId(), deposit.getAmount());
                 ctx.status(HttpStatus.OK_200);
+            } else {
+                ctx.status(HttpStatus.BAD_REQUEST_400);
+                ctx.json(new ErrorResponse(String.format("Invalid amount: %s", deposit.getAmount())));
             }
-            ctx.status(HttpStatus.BAD_REQUEST_400);
-            ctx.json(new ErrorResponse(String.format("Invalid amount: %s", deposit.getAmount())));
         };
     }
 
