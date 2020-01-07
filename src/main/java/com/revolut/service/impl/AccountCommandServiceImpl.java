@@ -6,6 +6,7 @@ import com.revolut.exception.IllegalAccountException;
 import com.revolut.exception.InsufficientFundsException;
 import com.revolut.service.AccountCommandService;
 import lombok.AllArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
@@ -15,6 +16,7 @@ import java.math.BigDecimal;
  */
 @AllArgsConstructor
 public class AccountCommandServiceImpl implements AccountCommandService {
+    @NotNull
     private AccountDao accountDao;
 
     /**

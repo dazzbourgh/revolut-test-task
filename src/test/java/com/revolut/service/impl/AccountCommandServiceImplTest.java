@@ -31,13 +31,8 @@ class AccountCommandServiceImplTest {
 
     @BeforeEach
     public void init() {
-        fromAccount = new Account();
-        fromAccount.setId(FROM_ID);
-        fromAccount.setBalance(new BigDecimal("1000000"));
-
-        toAccount = new Account();
-        toAccount.setId(TO_ID);
-        toAccount.setBalance(new BigDecimal("50"));
+        fromAccount = new Account(FROM_ID, new BigDecimal("1000000"));
+        toAccount = new Account(TO_ID, new BigDecimal("50"));
     }
 
     @Test
