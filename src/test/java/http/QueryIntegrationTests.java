@@ -21,6 +21,7 @@ public class QueryIntegrationTests extends IntegrationTest {
         var request = new HttpGet(BASE_ADDR + "/accounts/1");
         var response = client.execute(request);
 
+        assertEquals(HttpStatus.OK_200, response.getStatusLine().getStatusCode());
         Account account = extractResult(response, Account.class);
         assertEquals(1L, account.getId());
         assertEquals(new BigDecimal("100"), account.getBalance());

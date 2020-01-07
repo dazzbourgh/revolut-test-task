@@ -7,6 +7,7 @@ import com.revolut.dto.response.ErrorResponse;
 import com.revolut.exception.IllegalAccountException;
 import com.revolut.exception.InsufficientFundsException;
 import com.revolut.module.AccountModule;
+import io.javalin.BadRequestResponse;
 import io.javalin.ExceptionHandler;
 import io.javalin.Javalin;
 import io.javalin.json.JavalinJson;
@@ -42,6 +43,7 @@ public class RevolutApp {
                 .exception(IllegalAccountException.class, exceptionHandler(HttpStatus.BAD_REQUEST_400))
                 .exception(InsufficientFundsException.class, exceptionHandler(HttpStatus.BAD_REQUEST_400))
                 .exception(NumberFormatException.class, exceptionHandler(HttpStatus.BAD_REQUEST_400))
+                .exception(BadRequestResponse.class, exceptionHandler(HttpStatus.BAD_REQUEST_400))
                 .exception(Exception.class, exceptionHandler(HttpStatus.INTERNAL_SERVER_ERROR_500));
     }
 
