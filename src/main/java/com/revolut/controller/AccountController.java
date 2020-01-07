@@ -9,6 +9,7 @@ import com.revolut.exception.IllegalAccountException;
 import com.revolut.service.AccountCommandService;
 import com.revolut.service.AccountQueryService;
 import io.javalin.Handler;
+import org.eclipse.jetty.http.HttpStatus;
 
 import java.math.BigDecimal;
 
@@ -42,9 +43,9 @@ public class AccountController {
             var deposit = ctx.bodyAsClass(Deposit.class);
             if (deposit.getAmount().compareTo(BigDecimal.ZERO) >= 0) {
                 accountCommandService.deposit(deposit.getId(), deposit.getAmount());
-                ctx.status(200);
+                ctx.status(HttpStatus.OK_200);
             }
-            ctx.status(400);
+            ctx.status(HttpStatus.BAD_REQUEST_400);
             ctx.json(new ErrorResponse(String.format("Invalid amount: %s", deposit.getAmount())));
         };
     }

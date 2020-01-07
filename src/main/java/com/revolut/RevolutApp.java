@@ -12,6 +12,7 @@ import io.javalin.Javalin;
 import io.javalin.json.JavalinJson;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.eclipse.jetty.http.HttpStatus;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.logging.Level;
@@ -38,9 +39,10 @@ public class RevolutApp {
                 .post("/v1/deposits", controller.deposit())
 //                .post("/v1/withdrawals", controller.withdraw())
 //                .post("/v1/transfers", controller.transfer())
-                .exception(IllegalAccountException.class, exceptionHandler(400))
-                .exception(InsufficientFundsException.class, exceptionHandler(400))
-                .exception(Exception.class, exceptionHandler(500));
+                .exception(IllegalAccountException.class, exceptionHandler(HttpStatus.BAD_REQUEST_400))
+                .exception(InsufficientFundsException.class, exceptionHandler(HttpStatus.BAD_REQUEST_400))
+                .exception(NumberFormatException.class, exceptionHandler(HttpStatus.BAD_REQUEST_400))
+                .exception(Exception.class, exceptionHandler(HttpStatus.INTERNAL_SERVER_ERROR_500));
     }
 
     public void stop() {
