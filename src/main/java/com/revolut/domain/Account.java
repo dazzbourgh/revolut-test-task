@@ -1,6 +1,7 @@
 package com.revolut.domain;
 
 import lombok.Data;
+import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,6 +16,6 @@ public class Account {
     @Id
     @GeneratedValue
     private long id;
-    private User user;
+    @NotNull
     private BigDecimal balance;
 }
