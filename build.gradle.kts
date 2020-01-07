@@ -1,6 +1,6 @@
 plugins {
     java
-    id("io.freefair.lombok") version("4.1.6")
+    id("io.freefair.lombok") version ("4.1.6")
 }
 
 group = "com.revolut"
@@ -17,6 +17,8 @@ dependencies {
     implementation("com.google.inject.extensions:guice-multibindings:4.2.2")
     implementation("com.google.code.gson:gson:2.8.6")
 
+    testImplementation("org.apache.httpcomponents:httpclient:4.5.10")
+    testImplementation("commons-io:commons-io:2.6")
     testImplementation("org.mockito:mockito-core:2.26.0")
     testImplementation("org.mockito:mockito-junit-jupiter:2.26.0")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.3.1")

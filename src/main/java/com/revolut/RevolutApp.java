@@ -10,19 +10,26 @@ import com.revolut.module.AccountModule;
 import io.javalin.ExceptionHandler;
 import io.javalin.Javalin;
 import io.javalin.json.JavalinJson;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@RequiredArgsConstructor
 public class RevolutApp {
     private static final Logger LOGGER = Logger.getLogger(RevolutApp.class.getName());
+    @NonNull
+    private int port;
+    private Javalin javalin;
 
     // TODO: collect known exceptions and assign 400 handler
-    public static void main(String[] args) {
+    public void start() {
         var injector = Guice.createInjector(new AccountModule());
         var controller = injector.getInstance(AccountController.class);
-        var app = Javalin.create().start(8083);
+        javalin = Javalin.create();
+        var app = javalin.start(port);
         var gson = new GsonBuilder().create();
         JavalinJson.setFromJsonMapper(gson::fromJson);
         JavalinJson.setToJsonMapper(gson::toJson);
@@ -34,6 +41,10 @@ public class RevolutApp {
                 .exception(IllegalAccountException.class, exceptionHandler(400))
                 .exception(InsufficientFundsException.class, exceptionHandler(400))
                 .exception(Exception.class, exceptionHandler(500));
+    }
+
+    public void stop() {
+        javalin.stop();
     }
 
     @NotNull
