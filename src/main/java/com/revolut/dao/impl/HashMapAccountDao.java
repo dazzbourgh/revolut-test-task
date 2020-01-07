@@ -1,8 +1,9 @@
 package com.revolut.dao.impl;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.revolut.dao.AccountDao;
 import com.revolut.domain.Account;
-import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -14,10 +15,16 @@ import java.util.Map;
  */
 // I mean, it's shorter and simpler than Hibernate and H2, but we can talk
 // about this later if we want.
-@AllArgsConstructor
+@Singleton
+//TODO: make all methods "transactional"
 public class HashMapAccountDao implements AccountDao {
     @NotNull
     private Map<Long, Account> dataStore;
+
+    @Inject
+    public HashMapAccountDao(@NotNull Map<Long, Account> dataStore) {
+        this.dataStore = dataStore;
+    }
 
     /**
      * {@inheritDoc}

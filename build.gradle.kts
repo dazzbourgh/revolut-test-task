@@ -13,6 +13,9 @@ repositories {
 dependencies {
     implementation("io.javalin:javalin:2.8.0")
     implementation("org.slf4j:slf4j-simple:1.7.26")
+    implementation("com.google.inject:guice:4.2.2")
+    implementation("com.google.inject.extensions:guice-multibindings:4.2.2")
+    implementation("com.google.code.gson:gson:2.8.6")
 
     testImplementation("org.mockito:mockito-core:2.26.0")
     testImplementation("org.mockito:mockito-junit-jupiter:2.26.0")

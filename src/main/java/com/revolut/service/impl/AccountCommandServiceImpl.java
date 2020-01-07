@@ -1,30 +1,33 @@
 package com.revolut.service.impl;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.revolut.dao.AccountDao;
 import com.revolut.domain.Account;
 import com.revolut.exception.IllegalAccountException;
 import com.revolut.exception.InsufficientFundsException;
 import com.revolut.service.AccountCommandService;
-import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
-import javax.transaction.Transactional;
 import java.math.BigDecimal;
 
 /**
  * An implementation of {@link AccountCommandService}.
  */
-@AllArgsConstructor
+@Singleton
 public class AccountCommandServiceImpl implements AccountCommandService {
-    @NotNull
     private AccountDao accountDao;
+
+    @Inject
+    public AccountCommandServiceImpl(@NotNull AccountDao accountDao) {
+        this.accountDao = accountDao;
+    }
 
     /**
      * {@inheritDoc}
      */
     // TODO: make thread safe
     @Override
-    @Transactional
     public void deposit(long id, BigDecimal amount) {
         var account = getAccount(id);
         account.setBalance(account.getBalance().add(amount));
@@ -36,7 +39,6 @@ public class AccountCommandServiceImpl implements AccountCommandService {
      */
     // TODO: make thread safe
     @Override
-    @Transactional
     public void withdraw(long id, BigDecimal amount) {
         var account = getAccount(id);
         var currentBalance = account.getBalance();
@@ -54,7 +56,6 @@ public class AccountCommandServiceImpl implements AccountCommandService {
      */
     // TODO: make thread safe
     @Override
-    @Transactional
     public void transfer(long fromId, long toId, BigDecimal amount) {
         var from = getAccount(fromId);
         var to = getAccount(toId);

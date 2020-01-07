@@ -1,18 +1,23 @@
 package com.revolut.service.impl;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.revolut.dao.AccountDao;
 import com.revolut.domain.Account;
 import com.revolut.service.AccountQueryService;
-import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * An implementation for {@link AccountQueryService}.
  */
-@AllArgsConstructor
+@Singleton
 public class AccountQueryServiceImpl implements AccountQueryService {
-    @NotNull
     private AccountDao accountDao;
+
+    @Inject
+    public AccountQueryServiceImpl(@NotNull AccountDao accountDao) {
+        this.accountDao = accountDao;
+    }
 
     /**
      * {@inheritDoc}
