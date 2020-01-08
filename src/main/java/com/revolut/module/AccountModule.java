@@ -12,8 +12,8 @@ import com.revolut.service.impl.AccountCommandServiceImpl;
 import com.revolut.service.impl.AccountQueryServiceImpl;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class AccountModule extends AbstractModule {
     @Override
@@ -22,7 +22,7 @@ public class AccountModule extends AbstractModule {
         bind(AccountQueryService.class).to(AccountQueryServiceImpl.class);
         bind(AccountDao.class).to(HashMapAccountDao.class);
         bind(AccountController.class);
-        var dataStore = new HashMap<Long, Account>();
+        var dataStore = new ConcurrentHashMap<Long, Account>();
         dataStore.put(1L, new Account(1L, new BigDecimal(100)));
         dataStore.put(2L, new Account(2L, new BigDecimal(50)));
         bind(new TypeLiteral<Map<Long, Account>>() {

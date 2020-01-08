@@ -12,11 +12,13 @@ import java.util.Map;
 
 /**
  * A DAO for {@link Account}, which uses a HashMap as it's data store.
+ * Thread safety is ensured by injecting {@link java.util.concurrent.ConcurrentHashMap} during startup.
+ *
+ * @see com.revolut.module.AccountModule for injection details.
  */
 // I mean, it's shorter and simpler than Hibernate and H2, but we can talk
 // about this later if we want.
 @Singleton
-//TODO: make all methods "transactional"
 public class HashMapAccountDao implements AccountDao {
     @NotNull
     private Map<Long, Account> dataStore;
