@@ -1,4 +1,4 @@
-package http;
+package com.revolut.controller.account;
 
 import com.google.gson.Gson;
 import com.revolut.domain.Account;
