@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.revolut.domain.Account;
 import com.revolut.dto.request.Deposit;
+import com.revolut.dto.request.Transfer;
 import com.revolut.dto.request.Withdrawal;
 import com.revolut.exception.IllegalAccountException;
 import com.revolut.service.AccountCommandService;
@@ -61,6 +62,13 @@ public class AccountController {
     }
 
     public Handler transfer() {
-        throw new UnsupportedOperationException();
+        return ctx -> {
+            var transfer = ctx.bodyValidator(Transfer.class)
+                    .check(t -> t.getAmount() != null && t.getAmount().compareTo(BigDecimal.ZERO) > 0,
+                            "transfer amount must be greater than zero")
+                    .get();
+            accountCommandService.transfer(transfer.getFromId(), transfer.getToId(), transfer.getAmount());
+            ctx.status(HttpStatus.OK_200);
+        };
     }
 }

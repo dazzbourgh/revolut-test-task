@@ -27,10 +27,5 @@ public class AccountModule extends AbstractModule {
         dataStore.put(2L, new Account(2L, new BigDecimal(50)));
         bind(new TypeLiteral<Map<Long, Account>>() {
         }).toInstance(dataStore);
-//        var dataStoreBinder = MapBinder.newMapBinder(binder(), Long.class, Account.class);
-//        dataStoreBinder.addBinding(1L)
-//                .toInstance(new Account(1L, new BigDecimal(100)));
-//        dataStoreBinder.addBinding(2L)
-//                .toInstance(new Account(2L, new BigDecimal(50)));
     }
 }
