@@ -27,7 +27,6 @@ public class RevolutApp {
     private int port;
     private Javalin javalin;
 
-    // TODO: collect known exceptions and assign 400 handler
     public void start() {
         var injector = Guice.createInjector(new AccountModule());
         var controller = injector.getInstance(AccountController.class);

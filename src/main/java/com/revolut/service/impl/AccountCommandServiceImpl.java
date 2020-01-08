@@ -68,7 +68,6 @@ public class AccountCommandServiceImpl implements AccountCommandService {
             if (from.getBalance().subtract(amount).compareTo(BigDecimal.ZERO) >= 0) {
                 from.setBalance(from.getBalance().subtract(amount));
                 to.setBalance(to.getBalance().add(amount));
-                // TODO: not thread safe
                 accountDao.save(from, to);
             } else {
                 throw new InsufficientFundsException(fromId);
