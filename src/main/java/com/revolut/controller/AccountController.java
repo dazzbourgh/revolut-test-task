@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.revolut.domain.Account;
 import com.revolut.dto.request.Deposit;
+import com.revolut.dto.request.Withdrawal;
 import com.revolut.exception.IllegalAccountException;
 import com.revolut.service.AccountCommandService;
 import com.revolut.service.AccountQueryService;
@@ -26,7 +27,7 @@ public class AccountController {
 
     public Handler accountInfo() {
         return ctx -> {
-            long id = Long.parseLong(ctx.pathParam("id"));
+            long id = ctx.pathParam("id", Long.class).get();
             Account account = accountQueryService.getById(id);
             if (account != null) {
                 ctx.status(200);
@@ -40,7 +41,7 @@ public class AccountController {
     public Handler deposit() {
         return ctx -> {
             var deposit = ctx.bodyValidator(Deposit.class)
-                    .check(dep -> dep.getAmount() != null && dep.getAmount().compareTo(BigDecimal.ZERO) >= 0,
+                    .check(dep -> dep.getAmount() != null && dep.getAmount().compareTo(BigDecimal.ZERO) > 0,
                             "deposit amount must be greater than zero")
                     .get();
             accountCommandService.deposit(deposit.getAccountId(), deposit.getAmount());
@@ -49,7 +50,14 @@ public class AccountController {
     }
 
     public Handler withdraw() {
-        throw new UnsupportedOperationException();
+        return ctx -> {
+            var withdrawal = ctx.bodyValidator(Withdrawal.class)
+                    .check(w -> w.getAmount() != null && w.getAmount().compareTo(BigDecimal.ZERO) > 0,
+                            "withdrawal amount must be greater than zero")
+                    .get();
+            accountCommandService.withdraw(withdrawal.getAccountId(), withdrawal.getAmount());
+            ctx.status(HttpStatus.OK_200);
+        };
     }
 
     public Handler transfer() {

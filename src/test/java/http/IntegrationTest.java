@@ -2,9 +2,13 @@ package http;
 
 import com.google.gson.Gson;
 import com.revolut.RevolutApp;
+import lombok.SneakyThrows;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,6 +33,23 @@ public abstract class IntegrationTest {
     @AfterEach
     public void cleanup() {
         sut.stop();
+    }
+
+    @SneakyThrows
+    protected HttpResponse doPost(String endpoint, String entity) {
+        var request = new HttpPost(BASE_ADDR + endpoint);
+        try {
+            request.setEntity(new StringEntity(entity));
+            return client.execute(request);
+        } finally {
+            request.releaseConnection();
+        }
+    }
+
+    @SneakyThrows
+    protected HttpResponse doGet(String endpoint) {
+        var request = new HttpGet(BASE_ADDR + endpoint);
+        return client.execute(request);
     }
 
     protected <T> T extractResult(HttpResponse response, Class<T> clazz) throws IOException {

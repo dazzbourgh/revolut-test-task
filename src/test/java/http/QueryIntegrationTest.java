@@ -15,7 +15,7 @@ import java.nio.charset.StandardCharsets;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class QueryIntegrationTests extends IntegrationTest {
+public class QueryIntegrationTest extends IntegrationTest {
     @Test
     public void shouldReturnAccountInfo() throws IOException {
         var request = new HttpGet(BASE_ADDR + "/accounts/1");
@@ -29,16 +29,17 @@ public class QueryIntegrationTests extends IntegrationTest {
 
     @Test
     public void shouldReturnErrorMessageForInvalidAccount() throws IOException {
-        testAccount("22");
-        testAccount("abc");
+        testAccount("22", HttpStatus.BAD_REQUEST_400);
+        testAccount("abc", HttpStatus.BAD_REQUEST_400);
+        testAccount("", HttpStatus.NOT_FOUND_404);
     }
 
-    private void testAccount(String id) throws IOException {
+    private void testAccount(String id, int expectedStatus) throws IOException {
         var request = new HttpGet(BASE_ADDR + "/accounts/" + id);
         var httpResponse = client.execute(request);
 
         var code = httpResponse.getStatusLine().getStatusCode();
-        assertEquals(HttpStatus.BAD_REQUEST_400, code);
+        assertEquals(expectedStatus, code);
         var result = IOUtils.toString(httpResponse.getEntity().getContent(), StandardCharsets.UTF_8);
         var response = new Gson().fromJson(result, ErrorResponse.class);
         assertTrue(response.isError());

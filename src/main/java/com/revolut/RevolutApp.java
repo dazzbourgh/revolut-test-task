@@ -10,6 +10,7 @@ import com.revolut.module.AccountModule;
 import io.javalin.BadRequestResponse;
 import io.javalin.ExceptionHandler;
 import io.javalin.Javalin;
+import io.javalin.NotFoundResponse;
 import io.javalin.json.JavalinJson;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -38,11 +39,12 @@ public class RevolutApp {
         app
                 .get("/v1/accounts/:id", controller.accountInfo())
                 .post("/v1/deposit", controller.deposit())
-//                .post("/v1/withdraw", controller.withdraw())
+                .post("/v1/withdraw", controller.withdraw())
 //                .post("/v1/transfer", controller.transfer())
                 .exception(IllegalAccountException.class, exceptionHandler(HttpStatus.BAD_REQUEST_400))
                 .exception(InsufficientFundsException.class, exceptionHandler(HttpStatus.BAD_REQUEST_400))
                 .exception(NumberFormatException.class, exceptionHandler(HttpStatus.BAD_REQUEST_400))
+                .exception(NotFoundResponse.class, exceptionHandler(HttpStatus.NOT_FOUND_404))
                 .exception(BadRequestResponse.class, exceptionHandler(HttpStatus.BAD_REQUEST_400))
                 .exception(Exception.class, exceptionHandler(HttpStatus.INTERNAL_SERVER_ERROR_500));
     }
