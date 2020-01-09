@@ -7,6 +7,7 @@ import com.revolut.dto.response.ErrorResponse;
 import com.revolut.exception.IllegalAccountException;
 import com.revolut.exception.InsufficientFundsException;
 import com.revolut.module.AccountModule;
+import com.revolut.validation.PositiveAmountPredicate;
 import io.javalin.BadRequestResponse;
 import io.javalin.ExceptionHandler;
 import io.javalin.Javalin;
@@ -35,11 +36,12 @@ public class RevolutApp {
         var gson = new GsonBuilder().create();
         JavalinJson.setFromJsonMapper(gson::fromJson);
         JavalinJson.setToJsonMapper(gson::toJson);
+        PositiveAmountPredicate validator = new PositiveAmountPredicate();
         app
                 .get("/v1/accounts/:id", controller.accountInfo())
-                .post("/v1/deposit", controller.deposit())
-                .post("/v1/withdraw", controller.withdraw())
-                .post("/v1/transfer", controller.transfer())
+                .post("/v1/deposit", controller.deposit(validator))
+                .post("/v1/withdraw", controller.withdraw(validator))
+                .post("/v1/transfer", controller.transfer(validator))
                 .exception(IllegalAccountException.class, exceptionHandler(HttpStatus.BAD_REQUEST_400))
                 .exception(InsufficientFundsException.class, exceptionHandler(HttpStatus.BAD_REQUEST_400))
                 .exception(NumberFormatException.class, exceptionHandler(HttpStatus.BAD_REQUEST_400))

@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 @Data
 @AllArgsConstructor
-public class Deposit {
+public class Deposit implements Amount {
     private long accountId;
     private BigDecimal amount;
 }

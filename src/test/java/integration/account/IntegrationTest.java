@@ -1,4 +1,4 @@
-package com.revolut.controller.account;
+package integration.account;
 
 import com.google.gson.Gson;
 import com.revolut.RevolutApp;
@@ -49,7 +49,11 @@ public abstract class IntegrationTest {
     @SneakyThrows
     protected HttpResponse doGet(String endpoint) {
         var request = new HttpGet(BASE_ADDR + endpoint);
-        return client.execute(request);
+        try {
+            return client.execute(request);
+        } finally {
+            request.releaseConnection();
+        }
     }
 
     protected <T> T extractResult(HttpResponse response, Class<T> clazz) throws IOException {

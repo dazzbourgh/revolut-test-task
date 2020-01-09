@@ -1,4 +1,4 @@
-package com.revolut.controller.account;
+package integration.account;
 
 import com.google.gson.Gson;
 import com.revolut.domain.Account;

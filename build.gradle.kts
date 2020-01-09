@@ -19,10 +19,10 @@ dependencies {
 
     testImplementation("org.apache.httpcomponents:httpclient:4.5.10")
     testImplementation("commons-io:commons-io:2.6")
-    testImplementation("org.mockito:mockito-core:2.26.0")
-    testImplementation("org.mockito:mockito-junit-jupiter:2.26.0")
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.3.1")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.3.1")
+    testImplementation("org.mockito:mockito-core:3.2.4")
+    testImplementation("org.mockito:mockito-junit-jupiter:3.2.4")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.5.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.5.2")
 }
 
 configure<JavaPluginConvention> {
