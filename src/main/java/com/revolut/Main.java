@@ -2,6 +2,7 @@ package com.revolut;
 
 public class Main {
     public static void main(String[] args) {
-        new RevolutApp(8088).start();
+        var port = args.length > 1 ? Integer.parseInt(args[1]): 8088;
+        new RevolutApp(port).start();
     }
 }
