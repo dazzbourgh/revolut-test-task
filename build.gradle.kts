@@ -1,6 +1,7 @@
 plugins {
     java
     id("io.freefair.lombok") version ("4.1.6")
+    id("com.github.johnrengelman.shadow") version ("5.2.0")
 }
 
 group = "com.revolut"
@@ -31,4 +32,13 @@ configure<JavaPluginConvention> {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+tasks {
+    shadowJar {
+        isZip64 = true
+        manifest {
+            attributes("Main-Class" to "com.revolut.Main")
+        }
+    }
 }

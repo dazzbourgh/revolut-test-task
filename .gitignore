@@ -41,3 +41,5 @@ gradle-app.setting
 hs_err_pid*
 
 .idea
+
+!revolut-test-task-1.0-SNAPSHOT-all.jar
