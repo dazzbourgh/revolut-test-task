@@ -10,6 +10,8 @@
 ## How to run
 Run `Main::main`, the app starts on port 8088 by default, but you can pass an argument to `main` with a different port.
 
+The `jar` file is on top level. You can build your own, but I was explicitly asked to include the jar in VCS, so it's here.
+
 ## API
 **GET** /v1/accounts/:id - check balance
 
